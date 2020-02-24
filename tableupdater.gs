@@ -19,7 +19,7 @@
 
   var DIAPOSITIVAS_ENTERAS = parseInt(DIAPOSITIVAS);
 
-  var neededSlides = (LEFTOVER) ? DIAPOSITIVAS : DIAPOSITIVAS_ENTERAS + 1;
+  var neededSlides = (LEFTOVER) ? DIAPOSITIVAS_ENTERAS + 1 : DIAPOSITIVAS_ENTERAS;
 
 
 // Esta funcion se esta llamando cada vez que se ejecuta un cambio y si se hace uno tras otro se llamara antes de que la funcion pueda realizar el cambio.
@@ -64,12 +64,14 @@ function escribirTablas(range){
       slideNumber++;
     }
     for(var j=0; j<8; j++){
-      //Se escriben las 8 filas de cada fila en la tabla respectiva.
-      tabla.getRow(i%ROWS_PER_SLIDE).getCell(j).getText().setText(values[i][j]);
+      //Se escriben las 8 columnas de cada fila en la tabla respectiva.
+      tabla.getCell(i%ROWS_PER_SLIDE, j).getText().setText(values[i][j]);
       //Checar si la celda tiene texto para modificar sus parametros o no.
-      //tabla.getRow(i%10).getCell(j).getText().isEmpty()
+      //tabla.getCell(i%ROWS_PER_SLIDE, j).getText().isEmpty()
       if(values[i][j].length!=0){
-        tabla.getRow(i%ROWS_PER_SLIDE).getCell(j).getText().getTextStyle().setFontSize(20);
+        tabla.getCell(i%ROWS_PER_SLIDE, j).getText().getTextStyle().setBold(false);
+        tabla.getCell(i%ROWS_PER_SLIDE, j).getText().getTextStyle().setFontSize(18);
+        tabla.getCell(i%ROWS_PER_SLIDE, j).getText().getTextStyle().setFontFamily("Inconsolata");
       }
       
       tabla.getRow(i%ROWS_PER_SLIDE).getCell(j).getFill().setSolidFill(bgColors[i][j]);
@@ -119,6 +121,8 @@ function coincidirFilas(tabla, necessaryRows){
     }
   }
   
+  autoResizeTable(necessaryRows,tabla);
+  
 }
 
 /* Marcador funcion aprobada */
@@ -139,95 +143,6 @@ function actualizarTablas(){
 }
 
 
-/* Marcador funcion aprobada */
-function actualizarFilas(rowsheet, numDeTablas){
-  var tabla;
-  var i = 0;
-  //si hay 2 tablas
-  for(i=0; i<numDeTablas; i++){
-    //obtenemos la tabla i                                           // Esta linea llama al metodo getpageelement de undefined
-    tabla = SlidesApp.openById(gspid).getSlides()[i].getTables()[0]; // Solucionado era por que no se percataba que ya se crearon las diapositivas
-    //sacamos el numero de filas en la tabla i
-    var filas = tabla.getNumRows();
-    Logger.log(i);
-    
-    // En la segunda corrida si las filas del documento son mayor a 20 hay que hacerlas
-    //comparamos con el numero de filas del sheet
-    if(rowsheet>(10+10*i)){
-      //entonces en la primera corrida si hay mas de diez filas tenemos que tomar unicamente 10
-      //vemos cuantas filas tiene la tabla y la igualamos a 10
-      if(filas<10){
-        //Agregar filas
-        for(i=0; i<(10-filas); i++){
-          tabla.appendRow();
-        }
-      }
-      else if(filas>10){
-        //Quitar filas
-        for(i=0; i<(filas-10); i++){
-          tabla.getRow(10).remove();
-        }
-      }
-      
-    }
-    
-    // en caso de que no sean mayor a 20 tenemos 
-    //Si no hay mas de diez filas en el spreasheet
-    //Se tienen que acomodar todas las filas en la primer diapositiva
-    else
-    {
-      var trueRows = rowsheet - (10*i);
-      //vemos cuantas filas tiene la tabla y la igualamos a rowsheet
-      if(filas<trueRows){
-        //Agregar filas cuando faltan para igualar al ss
-        for(var j=0; j<(trueRows-filas); j++){
-          Logger.log("Se agrego una fila"+j);
-          tabla.appendRow();
-        }
-      }
-      else if(filas>trueRows){
-        Logger.log("sientro");
-        //Quitar filas para igualar al spreadsheet.
-        for(var k=0; k<(filas-trueRows); k++){
-          Logger.log("Se quito una fila"+k);
-          tabla.getRow(filas-k-1).remove();
-        }
-      }
-    }
-    
-  }
-}
-
-// Marcador de funcion aprobada
-//function obtenerDiapositivas2(){
-  //Obtener las diapositivas necesarias
-  //var diapositivas = 0;
-  //Primer Metodo
-  //Por cada 10 filas es una diapositiva nueva
-  //for(var i=0; i<rows; i++){
-    //if((i)%rowsPerSlide == 0){
-      //diapositivas++;
-    //}
-  //}
-  
-  //Segundo Metodo
-  //diapositivas = Math.ceil(rows/rowsPerSlide);
-  
-  //Tercer Metodo
-  
-
-    
-  //Cuarto Metodo
-  //var diap = rows/rowsPerSlide;
-  //diapositivas = parseInt(diap);
-  //if(diap>diapositivas)
-  //{
-    //diapositivas++;
-  //}
-  
-  //return diapositivas;
-//}
-
 // Marcador de funcion aprobada
 function addSlides(length, slides){
   var slide = SlidesApp.openById(gspid).getSlides()[0];
@@ -246,18 +161,12 @@ function deleteSlides(length, slides)
   }
 }
 
-//Esto Permitira Establecer siempre el mismo largo de cada columna
-//Y la altura de cada fila.
-function modificarDimensionesTabla(){
-  
-
-}
 
 /**
  * Create a new slide.
  * @param {string} presentationId The presentation to add the slide to.
  */
-function autoResizeTable(rows){
+function autoResizeTable(rows,tabla){
   
   var requests = [];
   
@@ -269,7 +178,7 @@ function autoResizeTable(rows){
         tableRowProperties: 
         {minRowHeight: {magnitude: 10, unit: "PT"}},
         rowIndices: [i],
-        objectId: tableId,
+        objectId: tabla.getObjectId(),
         fields: "minRowHeight"
       }
      }
@@ -280,48 +189,3 @@ function autoResizeTable(rows){
 
 }
 
-/**
- * Create a new slide.
- * @param {string} presentationId The presentation to add the slide to.
- */
-function formatColumnSize(){
-    
-  var widthForColumns = [60,60,60,170,100,50,70,150]; //SUMAN 720
-  var requests = [];
-  
-  for(var j in widthForColumns){    
-      requests.push
-      ({updateTableColumnProperties: 
-        {tableColumnProperties:                           
-         {columnWidth: {magnitude: widthForColumns[j], unit: "PT"}},
-         columnIndices: [j],
-         objectId: tableId,
-         fields: "columnWidth"
-        }
-       });
-       
-  }
-  var response = Slides.Presentations.batchUpdate({'requests': requests}, gspid);
-}
-
-/**
- * Create a new slide.
- * @param {string} presentationId The presentation to add the slide to.
- */
-function setTablePosition(){
-  var requests = [{
-      "updatePageElementTransform": {
-        "objectId": tableId,
-        "applyMode": "ABSOLUTE",
-        "transform": {
-            "scaleX": 1,
-            "scaleY": 1,
-            "translateX": 0,
-            "translateY":  0,
-            "unit": "PT"
-        }
-      }
-    }];
-  var response = Slides.Presentations.batchUpdate({'requests': requests}, gspid);
-
-}
