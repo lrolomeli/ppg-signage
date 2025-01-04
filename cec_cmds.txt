@@ -1,0 +1,14 @@
+# check all the hdmi-cec devices connected
+echo 'scan' | cec-client -s -d 1
+
+# turn on device with ip address
+echo 'on <DEVICEADDRESS>' | cec-client -s -d 1
+eg. echo 'on 0.0.0.0' | cec-client -s -d 1
+
+# turn off device with ip address
+echo 'standby <DEVICEADDRESS>' | cec-client -s -d 1
+eg. echo 'standby 0.0.0.0' | cec-client -s -d 1
+
+# check status of the device if it is on or off
+echo 'pow <DEVICEADDRESS>' | cec-client -s -d 1
+eg. echo 'pow 0.0.0.0' | cec-client -s -d 1
