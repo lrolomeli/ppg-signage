@@ -66,8 +66,8 @@ Bienvenido al **Manual de Instalacion**. Este documento proporciona instruccione
 ## Solución de Problemas
 | Problema | Posible Solucion |
 |----------|-----------------|
-| No se inicia el software | Verifique los requisitos del sistema |
-| Error de conexión | Revise su conexión a internet |
+| No se ejecutan los scripts en automatico al encender el sistema | Verifique que las rutas que se hayan escrito correctamente, confirme que no se han ejecutado los scripts vea los registros de ejecucion en "journalctl --user -xe" |
+| No se refresca la presentacion | Confirme que se ha habilitado la interfaz grafica X11 con el siguiente comando "echo $XDG_SESSION_TYPE" el resultado debe ser X11 cualquier otro revise la configuracion inicial.|
 
 	- 1. Si necesita verificar los scripts que se han ejecutado periodicamente en crontab puede hacerlo con el siguiente comando
 	- "systemctl status cron" este desplegara si el servicio de ejecucion periodica esta funcionando y algunos logs de los programas ejecutados.
