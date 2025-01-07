@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Firefox Fullscreen
-Exec=bash -c "/home/ppg/Documents/autoscripts/start_signage.sh &"
+Exec=bash -c "~/Documents/autoscripts/start_signage.sh &"
 Type=Application
 X-GNOME-Autostart-enabled=true
 
