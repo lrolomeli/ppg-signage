@@ -68,19 +68,24 @@ Bienvenido al **Manual de Instalacion**. Este documento proporciona instruccione
 |----------|-----------------|
 | No se ejecutan los scripts en automatico al encender el sistema | Verifique que las rutas que se hayan escrito correctamente, confirme que no se han ejecutado los scripts vea los registros de ejecucion en "journalctl --user -xe" |
 | No se refresca la presentacion | Confirme que se ha habilitado la interfaz grafica X11 con el siguiente comando "echo $XDG_SESSION_TYPE" el resultado debe ser X11 cualquier otro revise la configuracion inicial.|
-| La TV no enciende | 1. Verifica la conexion por ssh. 2. Verifica que haya comunicacion con la TV "echo 'pow 0.0.0.0' | cec-client -s -d 1" 3. Prende la TV manualmente si el comando anterior arroja un error. 4. Puedes checar los resultados de los scripts en la carpeta /var/log/autoscripts/ |
 
-	- 1. Si necesita verificar los scripts que se han ejecutado periodicamente en crontab puede hacerlo con el siguiente comando
-	- "systemctl status cron" este desplegara si el servicio de ejecucion periodica esta funcionando y algunos logs de los programas ejecutados.
-	- 2. En el archivo cec_cmds.txt puedes encontrar los comandos basicos para hdmi cec y estos podrian ser distintos en algunas distribuciones de linux.
-	- 3. El archivo ppgslides.js es la automatizacion de la hoja de pedidos oficial en google sheets de plasticos plasa. Este programa se encarga de modificar
-	- la presentacion oficial cada que hay un cambio en la hoja. 
-	- El desarrollo de este programa esta escrito dentro de las extensiones de google sheets.
-	- Para modificar el programa: 
-		- 1) Entra en la hoja electronica de PEDIDOS A FABRICAR en google sheets. 
-		- 2) Selecciona el menu de "Extensiones" y la opcion de "Apps Script".
-		- 3) La funcion runLastCall2() se ejecuta cada vez que hay una modificacion en la hoja.
-	- Las operaciones en esta hoja se limitan a solamente lectura para no afectar la edicion de los administradores.
+Si La TV no enciende
+1. Verifica la conexion por ssh.
+2. Verifica que haya comunicacion con la TV "echo 'pow 0.0.0.0' | cec-client -s -d 1"
+3. Prende la TV manualmente si el comando anterior arroja un error.
+4. Puedes checar los resultados de los scripts en la carpeta /var/log/autoscripts/
+
+- 1. Si necesita verificar los scripts que se han ejecutado periodicamente en crontab puede hacerlo con el siguiente comando
+- "systemctl status cron" este desplegara si el servicio de ejecucion periodica esta funcionando y algunos logs de los programas ejecutados.
+- 2. En el archivo cec_cmds.txt puedes encontrar los comandos basicos para hdmi cec y estos podrian ser distintos en algunas distribuciones de linux.
+- 3. El archivo ppgslides.js es la automatizacion de la hoja de pedidos oficial en google sheets de plasticos plasa. Este programa se encarga de modificar
+- la presentacion oficial cada que hay un cambio en la hoja. 
+- El desarrollo de este programa esta escrito dentro de las extensiones de google sheets.
+- Para modificar el programa: 
+	- 1) Entra en la hoja electronica de PEDIDOS A FABRICAR en google sheets. 
+	- 2) Selecciona el menu de "Extensiones" y la opcion de "Apps Script".
+	- 3) La funcion runLastCall2() se ejecuta cada vez que hay una modificacion en la hoja.
+- Las operaciones en esta hoja se limitan a solamente lectura para no afectar la edicion de los administradores.
 
 ## Contacto y Soporte
 Para asistencia, contacte a: **soporte@plasticosplasa.com**
