@@ -50,9 +50,7 @@ echo "Habilitando X11..."
 sudo raspi-config nonint do_wayland W1
 echo "X11 habilitado. Es recomendable reiniciar el Raspberry Pi."
 
-# Deshabilitar protector de pantalla y evitar que la pantalla se apague
-echo "Deshabilitando protector de pantalla y suspensión de pantalla..."
-xset s off
-xset -dpms
-xset s noblank
-echo "Protector de pantalla deshabilitado y la pantalla no se suspenderá."
+# Deshabilitar protector de pantalla y evitar que la pantalla se apague permanentemente
+echo "Configurando desactivación permanente del protector de pantalla y suspensión de pantalla..."
+echo -e "xset s off\nxset -dpms\nxset s noblank" >> ~/.xsessionrc
+echo "Protector de pantalla deshabilitado permanentemente."
